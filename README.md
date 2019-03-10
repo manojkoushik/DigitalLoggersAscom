@@ -1,5 +1,7 @@
 ASCOM Switch Driver For Digital Loggers Web Power Switch
+
 This driver will let you control a Digital Loggers Web Power Switch via an ASCOM switch interface. Not all versions have been fully tested yet. Extensive testing has been done on a LPC9 on firmware version 1.7.9.0.
+
 Installation:
 Install and configure the switch as specified by Digital Loggers users manual for Ethernet/WiFi connectivity
 
