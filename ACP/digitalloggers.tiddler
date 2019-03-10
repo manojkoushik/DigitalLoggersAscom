@@ -1,0 +1,123 @@
+<<RefreshTiddler Refresh "Refresh Digital Loggers Status" 30 >>
+<html>
+<style>
+  p {
+    margin: 5px;
+    cursor: pointer;
+  }
+  p:hover {
+    background: green;
+  }
+@-webkit-keyframes changing {
+  from { background-color: red; }
+  to { background-color: inherit; }
+}
+@-moz-keyframes changing {
+  from { background-color: red; }
+  to { background-color: inherit; }
+}
+@-o-keyframes changing {
+  from { background-color: red; }
+  to { background-color: inherit; }
+}
+@keyframes changing {
+  from { background-color: red; }
+  to { background-color: inherit; }
+}
+.changing {
+  -webkit-animation: changing 1s infinite; /* Safari 4+ */
+  -moz-animation:    changing 1s infinite; /* Fx 5+ */
+  -o-animation:      changing 1s infinite; /* Opera 12+ */
+  animation:         changing 1s infinite; /* IE 10+ */
+}
+</style>
+<table id="relayTable" class="noBorder" style="border:0;margin:0;">
+    <tr><th colspan="5"><div id="relayName"></div></th></tr>
+    <tr>
+      <th></th>
+      <th>Outlet</th>
+      <th>State</th>
+      <th>On/Off</th>
+      <th>Cycle</th>
+    </tr>
+</table>
+</html>
+//
+<script>
+
+$(function() {
+    DC3.Ajax.sendRequest("GET", "/ac/digitalloggers.asp?cmd=get" , 
+      "", _processResponse, null);
+});
+
+function _processResponse(val, params) {
+  eval(val);
+}
+
+
+function _outletState(escId, escName, escState, escCanWrite) {
+  var table = document.getElementById("relayTable");
+  var name = unescape(escName);
+  var id = unescape(escId);
+  var rowIndex = -1;
+
+  if (table.rows.length == 10)
+    rowIndex = parseInt(id, 10) + 2;
+  
+  var row;
+  if (rowIndex > 0)
+    table.deleteRow(rowIndex);
+
+  var row = table.insertRow(rowIndex);
+  var idCell = row.insertCell();
+  idCell.innerHTML = id;
+  var nameCell = row.insertCell();
+  
+  if (name != "---") {
+    var stateCell = row.insertCell();
+    stateCell.style.textAlign = "center";
+    var controlCell = row.insertCell();
+    controlCell.style.textAlign = "center";
+    var cycleCell = row.insertCell();
+    cycleCell.style.textAlign = "center";
+
+    nameCell.innerHTML = name;
+    var state = unescape(escState);
+    stateCell.innerHTML = state;
+    var canWrite = unescape(escCanWrite);
+    if (canWrite == "FALSE") {
+      stateCell.style.backgroundColor = "Yellow";
+      stateCell.style.color = "Black";
+      controlCell.style.backgroundColor = "Yellow";
+      controlCell.style.color = "Black";
+      controlCell.innerHTML = "LOCKED";
+      controlCell.colSpan = 2;  
+    } else if (state == "ON") {
+      stateCell.style.backgroundColor = "Green";
+      stateCell.style.color = "Black"; 
+      controlCell.innerHTML = "<p outlet=\"" + id + "\" action=\"off\">OFF</p>";
+      cycleCell.innerHTML = "<p outlet=\"" + id + "\" action=\"cycle\">CYCLE</p>";
+    } else if (state == "OFF") {
+      stateCell.style.backgroundColor = "Red";
+      stateCell.style.color = "Black";     
+      controlCell.innerHTML = "<p outlet=\"" + id + "\" action=\"on\">ON</p>";
+      cycleCell.innerHTML = "---";
+    }  
+  } else {
+    nameCell.innerHTML = "No Access";
+    nameCell.colSpan = 4;
+  }
+  $("p").unbind().click(function(e){
+    var outlet = resolveTarget(e).getAttribute("outlet");
+    var action = resolveTarget(e).getAttribute("action");
+    qs = "?cmd=set&outlet=" + outlet + "&state=" + action;
+    resolveTarget(e).classList.add('changing');
+    DC3.Ajax.sendRequest("GET", "/ac/digitalloggers.asp" + qs, "", _processResponse, null);  
+  });
+}
+
+function _relayName(escVal) {
+  var elem = document.getElementById("relayName");
+  elem.innerHTML = unescape(escVal);                           
+}
+</script>
