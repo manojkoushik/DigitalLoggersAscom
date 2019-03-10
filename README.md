@@ -50,18 +50,18 @@ Included in the installation is support for ACP. There is a server side asp file
 
 * When you click done, the tiddler should now work with the asp server side script to connect to Digital Loggers, poll data and display it. This assumes that on the ACP machine you have already finished driver setup and configuration:
 
-* * A table should be displayed. At the top of the table, if available, the name of the switch as configured in the Digital Loggers switch, the Model and the firmware version of the switch, are displayed
+  * A table should be displayed. At the top of the table, if available, the name of the switch as configured in the Digital Loggers switch, the Model and the firmware version of the switch, are displayed
 
-* * First column displays the outlet number
+  * First column displays the outlet number
 
-* * Second column displays the name of the outlet as configured in the Digital Loggers switch
+  * Second column displays the name of the outlet as configured in the Digital Loggers switch
 
-* * Third column is the current state of the outlet (On/Off)
+  * Third column is the current state of the outlet (On/Off)
 
-* * Fourth column gives you control over the outlet. This is context sensitive. That is, if currently the outlet if Off, this will give you the option to turn it On. And vice-versa
+  * Fourth column gives you control over the outlet. This is context sensitive. That is, if currently the outlet if Off, this will give you the option to turn it On. And vice-versa
 
-* * Final column gives you the ability to cycle/reboot an outlet. Again this is context sensitive and will only be active if the outlet is currently On (An outlet that is Off cannot be cycled)
+  * Final column gives you the ability to cycle/reboot an outlet. Again this is context sensitive and will only be active if the outlet is currently On (An outlet that is Off cannot be cycled)
 
-* * If a particular outlet is Locked (you can do this from the control buttons on the switch itself. See Digital Loggers Manual), then the control columns are locked out and shown as "LOCKED"
+  * If a particular outlet is Locked (you can do this from the control buttons on the switch itself. See Digital Loggers Manual), then the control columns are locked out and shown as "LOCKED"
 
-* * If a particular outlet is not accessible to the Digital Loggers user (see Digital Loggers Manual) that was used to configure the ASCOM driver, then the row for this outlet will be blanked out
+  * If a particular outlet is not accessible to the Digital Loggers user (see Digital Loggers Manual) that was used to configure the ASCOM driver, then the row for this outlet will be blanked out
